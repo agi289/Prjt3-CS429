@@ -390,7 +390,7 @@ void t_gcollect (void)
     // Marking phase
     long a;
     char * ptr = (char*)&a;     // current stack ptr
-    while ((uint64_t)stackBottomPtr - (uint64_t)ptr < 8)     // stack_bot is ptr of main so going up to main
+    while ((uint64_t)stackBottomPtr - (uint64_t)ptr >= 8)     // stack_bot is ptr of main so going up to main
     {
         void ** reference = (void**)ptr;
         void* trial = *reference;
@@ -404,6 +404,7 @@ void t_gcollect (void)
             }
             allocCurr = allocCurr->next;
         }
+        ptr+=1;
     }
 
     // sweep 
