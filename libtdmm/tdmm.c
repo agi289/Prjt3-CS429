@@ -263,8 +263,8 @@ void *t_malloc(size_t size)
 
     if (use == NULL)
     {
-        t_gcollect();
-        use = policyChoose(policy, size);
+        // t_gcollect();
+        // use = policyChoose(policy, size);
     }
 
     // If tgcollect doesn't work
