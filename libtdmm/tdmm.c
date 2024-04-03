@@ -14,7 +14,7 @@
 block *freeLinkedList = NULL;
 block *allocatedLinkedList = NULL;
 alloc_strat_e policy = FIRST_FIT;
-char * stackBottomPtr;
+char *stackBottomPtr;
 
 /* Helper functions */
 void putBlock(block *change, size_t size, block *nextAdd, int freeAdd)
@@ -37,12 +37,12 @@ size_t align(size_t size)
 /* Aligns to a multiple of 4  ~ done */
 size_t alignForExtension(size_t size)
 {
-    //return (((size) + (4096 - 1)) & ~(4096 - 1));
-    // keep doubling a number till it's greater than or equal to value
+    // return (((size) + (4096 - 1)) & ~(4096 - 1));
+    //  keep doubling a number till it's greater than or equal to value
     size_t x = 4096;
     while (x < size)
     {
-        x = x *2;
+        x = x * 2;
     }
     return x;
 }
@@ -66,15 +66,14 @@ block *split(block *blockToSplit, size_t size)
     return allocatedPortion;
 }
 
-
 // Splits in half each
 // BUDDY CHANGE
 block *splitBuddy(block *blockToSplit)
 {
     size_t sizeOfBlock = blockToSplit->size;
-    size_t whatsLeft = sizeOfBlock/2;
+    size_t whatsLeft = sizeOfBlock / 2;
     // changed from < size *3 to <= size
-   
+
     // Keeping the top-half free
     putBlock(blockToSplit, whatsLeft, blockToSplit->next, 1);
     block *allocatedPortion = (block *)((char *)blockToSplit + whatsLeft);
@@ -86,7 +85,7 @@ block *splitBuddy(block *blockToSplit)
 
 /* Main functions */
 
-void t_init(alloc_strat_e mode, void* stack_bot)
+void t_init(alloc_strat_e mode, void *stack_bot)
 {
     block *initial = (block *)mmap(NULL, 4096 * 4, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
     if (initial != MAP_FAILED)
@@ -213,7 +212,7 @@ block *buddyFit(size_t size)
         return toReturn;
     }
 
-    while(toReturn->size >= size*2)
+    while (toReturn->size >= size * 2)
     {
         toReturn = splitBuddy(toReturn);
     }
@@ -223,7 +222,7 @@ block *buddyFit(size_t size)
 
 block *policyChoose(alloc_strat_e strat, size_t size)
 {
-    block * use;
+    block *use;
     switch (strat)
     {
     case FIRST_FIT:
@@ -329,7 +328,7 @@ void t_free(void *ptr)
     {
         return;
     }
-    
+
     // If the pointer hasn't been called before w malloc
     if (beforeDataPtr == NULL)
     {
@@ -384,34 +383,43 @@ void coalesce(block *curr)
     }
 }
 
-
-void t_gcollect (void)
+void t_gcollect(void)
 {
     // Marking phase
     long a;
-    char * ptr = (char*)&a;     // current stack ptr
-    while ((uint64_t)stackBottomPtr - (uint64_t)ptr >= 8)     // stack_bot is ptr of main so going up to main
+    char *ptr = (char *)&a; // current stack ptr
+
+    // sweep
+    block *curr = allocatedLinkedList;
+    while (curr != NULL)
     {
-        void ** reference = (void**)ptr;
-        void* trial = *reference;
-        
-        block * allocCurr = allocatedLinkedList;
+        block *next = curr->next;
+        curr->mark = 0;
+        curr = next;
+    }
+
+    while ((uint64_t)stackBottomPtr - (uint64_t)ptr >= 8) // stack_bot is ptr of main so going up to main
+    {
+        void **reference = (void **)ptr;
+        void *trial = *reference;
+
+        block *allocCurr = allocatedLinkedList;
         while (allocCurr != NULL)
         {
-            if (((uint64_t)allocCurr + sizeof(block) <= (uint64_t) trial) && ((uint64_t) trial < (uint64_t)allocCurr + allocCurr->size))
+            if (((uint64_t)allocCurr + sizeof(block) <= (uint64_t)trial) && ((uint64_t)trial < (uint64_t)allocCurr + allocCurr->size))
             {
                 allocCurr->mark = 1;
             }
             allocCurr = allocCurr->next;
         }
-        ptr+=1;
+        ptr += 1;
     }
 
-    // sweep 
-    block * curr = allocatedLinkedList;
+    // sweep
+    block *curr = allocatedLinkedList;
     while (curr != NULL)
     {
-        block * next = curr->next;
+        block *next = curr->next;
         if (curr->mark == 0)
         {
             t_free(curr + 1);
@@ -420,15 +428,13 @@ void t_gcollect (void)
     }
 }
 
-
 /*Tester functions*/
-
 
 void testMalloc()
 {
     printf("Testing malloc\n");
-    block * currAllocTest = allocatedLinkedList;
-    while (currAllocTest!= NULL)
+    block *currAllocTest = allocatedLinkedList;
+    while (currAllocTest != NULL)
     {
         printf("The memory address is %p\n", currAllocTest);
         currAllocTest = currAllocTest->next;
