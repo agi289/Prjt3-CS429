@@ -390,12 +390,12 @@ void t_gcollect(void)
     char *ptr = (char *)&a; // current stack ptr
 
     // sweep
-    block *curr = allocatedLinkedList;
-    while (curr != NULL)
+    block *currStart = allocatedLinkedList;
+    while (currStart != NULL)
     {
-        block *next = curr->next;
-        curr->mark = 0;
-        curr = next;
+        block *nextStart = currStart->next;
+        currStart->mark = 0;
+        currStart = nextStart;
     }
 
     while ((uint64_t)stackBottomPtr - (uint64_t)ptr >= 8) // stack_bot is ptr of main so going up to main
