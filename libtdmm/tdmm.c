@@ -329,12 +329,6 @@ void t_free(void *ptr)
         return;
     }
 
-    // If the pointer hasn't been called before w malloc
-    if (beforeDataPtr == NULL)
-    {
-        return;
-    }
-
     // Flips the free value of the allocated block to 1 meaning now free
     beforeDataPtr->free = 1;
 
