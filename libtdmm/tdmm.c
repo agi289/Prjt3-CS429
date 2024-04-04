@@ -30,7 +30,7 @@ void putBlock(block *change, size_t size, block *nextAdd, int freeAdd)
 /* Aligns to a multiple of 4  ~ done */
 size_t align(size_t size)
 {
-    int ALIGNMENT = 4;
+    int ALIGNMENT = 8;
     return (size + (ALIGNMENT - 1) & ~(ALIGNMENT - 1));
 }
 
