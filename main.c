@@ -21,11 +21,11 @@ int main(int argc, char *argv[])
     {
         // t_malloc(4097);
         // t_free(test[i]);
-        if (i == 271)
+        if (i == 400)
         {
             test[0] = test[0];
         }
-        test[0] = t_malloc(1);
+        test[0] = t_malloc(28);
         *test[0] = i;
         // print pointers returned by malloc
         // t_free(test[i]);

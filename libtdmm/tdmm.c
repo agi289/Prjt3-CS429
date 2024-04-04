@@ -30,7 +30,7 @@ void putBlock(block *change, size_t size, block *nextAdd, int freeAdd)
 /* Aligns to a multiple of 4  ~ done */
 size_t align(size_t size)
 {
-    int ALIGNMENT = 8;
+    int ALIGNMENT = 4;
     return (size + (ALIGNMENT - 1) & ~(ALIGNMENT - 1));
 }
 
@@ -87,10 +87,10 @@ block *splitBuddy(block *blockToSplit)
 
 void t_init(alloc_strat_e mode, void *stack_bot)
 {
-    block *initial = (block *)mmap(NULL, 4096 * 4, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+    block *initial = (block *)mmap(NULL, 4096, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
     if (initial != MAP_FAILED)
     {
-        putBlock(initial, 4096 * 4, NULL, 1);
+        putBlock(initial, 4096, NULL, 1);
         freeLinkedList = initial;
     }
     policy = mode;
