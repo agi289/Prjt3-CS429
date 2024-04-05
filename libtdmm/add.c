@@ -1,249 +1,227 @@
-// #include "tmalloc.h"
-// #include <limits.h>
+// #include <stdio.h>
+// #include <string.h>
+// #include <stdlib.h>
 // #include "tdmm.h"
+// #include <time.h>
+// #include "tmalloc.h"
 
-// block *freeLinkedList = NULL;
-// block *allocatedLinkedList = NULL;
-
-
-// size_t calcSize(block * check, size_t size)
+// struct node
 // {
-//     return check->size - size;
+//    int data;
+//    struct node *next;
+// };
+// struct node *head = NULL;
+// struct node *current = NULL;
+
+// // display the list
+// void printList()
+// {
+//    struct node *p = head;
+//    printf("\n[");
+
+//    // start from the beginning
+//    while (p != NULL)
+//    {
+//       printf(" %d ", p->data);
+//       p = p->next;
+//    }
+//    printf("]");
 // }
 
-// block * bestFit(size_t size)
+// // insertion at the beginning
+// void insertatbegin(int data)
 // {
-//     block * curr = freeLinkedList;
-//     block * toReturn = freeLinkedList;
-//     size_t sizeDiff = __SIZE_MAX__;
 
-//     while (curr != NULL)
-//     {
-//         if (curr->free == 1 && curr->size >= size)
-//         {
-//             size_t replaceS = calcSize(curr, size);
-//             if (replaceS<sizeDiff)
-//             {
-//                 sizeDiff = replaceS;
-//                 toReturn = curr;
-//             }
-//         }
-//         curr = curr->next;
-//     }
+//    // create a link
+//    struct node *lk = (struct node *)t_malloc(sizeof(struct node));
+//    lk->data = data;
 
-//     return toReturn;
+//    // point it to old first node
+//    lk->next = head;
+
+//    // point first to new first node
+//    head = lk;
+// }
+// void insertatend(int data)
+// {
+
+//    // create a link
+//    struct node *lk = (struct node *)t_malloc(sizeof(struct node));
+//    lk->data = data;
+//    struct node *linkedlist = head;
+
+//    // point it to old first node
+//    while (linkedlist->next != NULL)
+//       linkedlist = linkedlist->next;
+
+//    // point first to new first node
+//    linkedlist->next = lk;
+// }
+// void insertafternode(struct node *list, int data)
+// {
+//    struct node *lk = (struct node *)t_malloc(sizeof(struct node));
+//    lk->data = data;
+//    lk->next = list->next;
+//    list->next = lk;
+// }
+// void deleteatbegin()
+// {
+//    head = head->next;
+
+//    // add tfree
+//    t_free(head);
+// }
+// void deleteatend()
+// {
+//    struct node *linkedlist = head;
+//    while (linkedlist->next->next != NULL)
+//       linkedlist = linkedlist->next;
+
+//    // add free
+//    t_free(linkedlist->next);
+//    linkedlist->next = NULL;
+// }
+// void deletenode(int key)
+// {
+//    struct node *temp = head, *prev;
+//    if (temp != NULL && temp->data == key)
+//    {
+//       head = temp->next;
+//       t_free(temp);
+//       return;
+//    }
+
+//    // Find the key to be deleted
+//    while (temp != NULL && temp->data != key)
+//    {
+//       prev = temp;
+//       temp = temp->next;
+//    }
+
+//    // If the key is not present
+//    if (temp == NULL)
+//       return;
+
+//    // Remove the node
+//    prev->next = temp->next;
+//    t_free(temp);
+// }
+// int searchlist(int key)
+// {
+//    struct node *temp = head;
+//    while (temp != NULL)
+//    {
+//       if (temp->data == key)
+//       {
+//          return 1;
+//       }
+//       temp = temp->next;
+//    }
+//    return 0;
 // }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/// LInked list stuf
-
-
-
-// // void t_free(void *ptr)
-// // {
-// //     if (ptr == NULL)
-// //     {
-// //         return;
-// //     }
-// //     block * tempAllocAhead;
-// //     // WHAT IF WE ARE FREEING FROM EMPTY LIST (unsure if correct)
-// //     if (freeLinkedList == NULL)
-// //     {
-// //         // block *tempAllocAhead = allocatedLinkedList;
-// //         // while (tempAllocAhead->next != NULL && tempAllocAhead != ptr)
-// //         // {
-// //         //     tempAllocAhead = tempAllocAhead->next;
-// //         // }
-// //         // tempAllocAhead->free = 1;
-// //         // freeLinkedList = tempAllocAhead;
-// //     }
-// //     // if ptr is the first in list
-// //     if (ptr == allocatedLinkedList)
-// //     {
-// //         allocatedLinkedList = allocatedLinkedList->next;
-// //     }
-// //     else
-// //     {
-// //         // CREATE TEMP FOR STARTING LEFT POINT i.e. tempAllocAhead
-// //         // then forward tempAllocHead like you have done
-// //         // save the tempAllocHead->next as a temp pointer
-// //         tempAllocAhead = allocatedLinkedList;
-// //         while (tempAllocAhead->next != NULL && tempAllocAhead != ptr)
-// //         {
-// //             tempAllocAhead = tempAllocAhead->next;
-// //         }
-// //     }
-
-// //     // DEALLOCATE -- ste block back from 0 to 1 (have)
-// //     tempAllocAhead->free = 1;
-// //     insertListModified(&freeLinkedList, tempAllocAhead);
-
-// //     // COALESCE, prev and this, this and temp right ptr
-// //     coalesce(freeLinkedList);
-// //     coalesce(freeLinkedList->next);
-// // }
-
-
-
-
-
-// version 1 add
-
-
-
-
-
-
-//     // is linked list is null do linked list null thing
-//     // loop through using freehead and freehead next
-
-//     block *allocCurr = allocatedLinkedList;
-//     block *allocPrev = NULL;
-
-//     if (ptr == allocatedLinkedList) // change?
-//     {
-//         allocatedLinkedList = allocatedLinkedList->next;
-//     }
-//     else
-//     {
-//         while (allocCurr != NULL && allocCurr != ptr)
-//         {
-//             allocPrev = allocCurr;
-//             allocCurr = allocCurr->next;
-//         }
-
-//         // wasn't found
-//         if (allocCurr == NULL)
-//         {
-//             return;
-//         }
-//     }
-
-//     allocCurr->free = 1;
-//     if (freeLinkedList == NULL)
-//     {
-//         freeLinkedList = allocCurr;
-//     }
-//     else
-//     {
-//         insertListModified(&freeLinkedList, allocCurr);
-//     }
-
-//     coalesce(allocPrev);
-//     coalesce(allocCurr);
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Old split
-   // if (blockToSplit->size > size + sizeof(block))
-    // {
-    //     block *nextBlock = blockToSplit->next;
-    //     // Get remaining size
-    //     size_t newSize = size + sizeof(block);
-    //     blockToSplit->size -= newSize;
-
-    //     block *newBlock = (block *)((char *)blockToSplit + blockToSplit->size + sizeof(block));
-    //     // putBlock function
-    //     return newBlock;
-    // }
-    // else
-    // {
-    //     return blockToSplit;
-    // }
-
-
-
-    ////// More
-    
-
-// void insertList(block * currBlock, size_t size, block * blockInsert, block * prevBlock)
+// int main(int argc, char *argv[])
 // {
-//     while (currBlock != NULL && currBlock < blockInsert)
-//     {
-//         prevBlock = currBlock;
-//         currBlock = currBlock-> next;
-//     }
-//     // add to beginning of list
-//     if (prevBlock == NULL)
-//     {
-//         blockInsert->next = currBlock;
-//         currBlock = blockInsert;
-//     }
-//     else
-//     {
-//         prevBlock->next = blockInsert;
-//         blockInsert->next = currBlock;
-//     }
-// }
 
+//    clock_t start_time = clock();
+//    // added intilization
+//    int a;
 
-// // put on tmalloc
-// void tfree(void * ptr)
-// {
-//     if (ptr == NULL)
-//     {
-//         return;
-//     }
-    // block block = getBlock(block)
-    // if (freeLinkedList == NULL)
-    // {
-    //     freeLinkedList = block;
-    //     block-> prev = NULL;
-    //      block-> next = NULL;
+//    t_init(BEST_FIT, &a);
 
-    // }
-    // 
-    // use insert method
+//    int k = 0;
+//    insertatbegin(12);
+//    clock_t end_time = clock();
+
+//    double elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+
+//    printf("Elapsed time: %f seconds\n", elapsed_time);
+//    insertatbegin(22);
+
+//    end_time = clock();
+
+//    elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+
+//    printf("Elapsed time: %f seconds\n", elapsed_time);
+
+//    insertatbegin(1000);
+//       end_time = clock();
+
+//    elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+
+//    printf("Elapsed time: %f seconds\n", elapsed_time);
+//    insertatend(7000);
+//       end_time = clock();
+
+//    elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+
+//    printf("Elapsed time: %f seconds\n", elapsed_time);
+//    insertatend(30);
+//       end_time = clock();
+
+//    elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+
+//    printf("Elapsed time: %f seconds\n", elapsed_time);
+//    insertatend(44);
+//       end_time = clock();
+
+//    elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+
+//    printf("Elapsed time: %f seconds\n", elapsed_time);
+//    insertatbegin(50);
+//       end_time = clock();
+
+//    elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+
+//    printf("Elapsed time: %f seconds\n", elapsed_time);
+//    insertafternode(head->next->next, 33);
+//       end_time = clock();
+
+//    elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+
+//    printf("Elapsed time: %f seconds\n", elapsed_time);
+//    printf("Linked List: \n");
+
+//    // print list
+//    printList();
+//    printf("\n");
+//    deleteatbegin();
+//       end_time = clock();
+
+//    elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+
+//    printf("Elapsed time: %f seconds\n", elapsed_time);
+//    deleteatend();
+//       end_time = clock();
+
+//    elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+
+//    printf("Elapsed time: %f seconds\n", elapsed_time);
+//    deletenode(12);
+//       end_time = clock();
+
+//    elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+
+//    printf("Elapsed time: %f seconds\n", elapsed_time);
+//    printf("\nLinked List after deletion: \n");
+
+//    // print list
+//    printList();
+//    printf("\n");
+//    insertatbegin(4);
+//       end_time = clock();
+
+//    elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+
+//    printf("Elapsed time: %f seconds\n", elapsed_time);
+//    printList();
+//    printf("\nUpdated Linked List: ");
+//    printList();
+//    printf("\n");
+
+//    end_time = clock();
+
+//    elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+
+//    printf("Elapsed time: %f seconds\n", elapsed_time);
 // }

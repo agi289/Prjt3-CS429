@@ -2,26 +2,32 @@
 #include "tmalloc.h"
 #include <assert.h>
 
+
 // Main ~ tester
 extern block *freeLinkedList;
+
 
 int main(int argc, char *argv[])
 {
     int a;
 
+
     /* Initialization */
     t_init(FIRST_FIT, &a);
 
+
     // void * p = t_malloc(10);
 
+
     int test_var = 5000;
+
 
     int *test[test_var];
     for (int i = 0; i < test_var; i++)
     {
         // t_malloc(4097);
         // t_free(test[i]);
-        if (i == 400)
+        if (i == 271)
         {
             test[0] = test[0];
         }
@@ -31,12 +37,70 @@ int main(int argc, char *argv[])
         // t_free(test[i]);
         printf("SUCCESS at %d\n", (i));
     }
+
+
+    // int test_var = 5;
+
+
+    // int *test[test_var];
+    // for (int i = 0; i < test_var; i++)
+    // {
+    //     t_malloc(10);
+    //     testMalloc();
+    //     // t_free(test[i]);
+    //     // if (i == 271)
+    //     // {
+    //     //     test[0] = test[0];
+    //     // }
+    //     // test[0] = t_malloc(28);
+    //     // *test[0] = i;
+    //     // print pointers returned by malloc
+    //     // t_free(test[i]);
+    //     printf("SUCCESS at %d\n", (i));
+    // }
     // t_gcollect();
     // testMalloc();
+    // printf("SAAME ADDRESS CHECK!\n");
+    // for (int i = 0; i < test_var; i++)
+    // {
+    //     t_malloc(10);
+    //     testMalloc();
+    //     // t_free(test[i]);
+    //     // if (i == 271)
+    //     // {
+    //     //     test[0] = test[0];
+    //     // }
+    //     // test[0] = t_malloc(28);
+    //     // *test[0] = i;
+    //     // print pointers returned by malloc
+    //     // t_free(test[i]);
+    //     printf("SUCCESS at %d\n", (i));
+    // }
+    // for (int i = 0; i < test_var; i++)
+    // {
+    //     t_malloc(4097);
+    //     testMalloc();
+    //     // t_free(test[i]);
+    //     // if (i == 271)
+    //     // {
+    //     //     test[0] = test[0];
+    //     // }
+    //     // test[0] = t_malloc(28);
+    //     // *test[0] = i;
+    //     // print pointers returned by malloc
+    //     // t_free(test[i]);
+    //     printf("SUCCESS at %d\n", (i));
+    // }
+
+
+    // t_gcollect();
+    // testMalloc();
+
 
     // // testMalloc();
     // //t_gcollect();
     // // testMalloc();
+
 
     // // test[0] = t_malloc(30);
     // // test[1] = t_malloc(29);
@@ -44,12 +108,16 @@ int main(int argc, char *argv[])
     // // test[3] = t_malloc(20);
     // // test[4] = t_malloc(40);
 
+
     // // t_free(test[1]);
     // // t_free(test[3]);
 
+
     // // test[5] = t_malloc(19);
 
+
     // // printf("Worked!\n");
+
 
     // // for (int i = 0; i < test_var; i++)
     // // {
@@ -57,6 +125,7 @@ int main(int argc, char *argv[])
     // //     //assert(*test[i] == i);
     // //     printf("SUCCESS at %d\n", (i));
     // // }
+
 
     // char* test[1000000];
     // for(int i =0; i < 100000; i++) {
@@ -84,6 +153,7 @@ int main(int argc, char *argv[])
     //     // }
     // }
 
+
     // for (int i = 0 ; i < 20000; i++) {
     //     t_free(test[i + 50000]);
     //     test[i + 50000] = NULL;
@@ -95,22 +165,27 @@ int main(int argc, char *argv[])
     //     }
     // }
 
+
     // }
     // printf("made it!!");
 }
+
 
 // long timed_t_malloc(size_t size) {
 //     clock_t start_t, end_t;
 //    double total_t;
 //    int i;
 
+
 //    start_t = clock();
 //    // replace w
 //    printf("Starting of the program, start_t = %ld\n", start_t);
+
 
 //    printf("Going to scan a big loop, start_t = %ld\n", start_t);
 //    for(i=0; i< 10000000; i++) {
 //    }
 //    end_t = clock();
+
 
 // }
