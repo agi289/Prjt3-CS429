@@ -30,7 +30,7 @@ void putBlock(block *change, size_t size, block *nextAdd, int freeAdd)
 /* Aligns to a multiple of 4  ~ done */
 size_t align(size_t size)
 {
-    int ALIGNMENT = 8;
+    int ALIGNMENT = 4;
     return (size + (ALIGNMENT - 1) & ~(ALIGNMENT - 1));
 }
 
@@ -54,13 +54,13 @@ block *split(block *blockToSplit, size_t size)
     size_t sizeOfBlock = blockToSplit->size;
     size_t whatsLeft = sizeOfBlock - size;
     // changed from < size *3 to <= size
-    if (blockToSplit->size <= size)
+    if (blockToSplit->size <= size * 2.5)
     {
         return blockToSplit;
     }
     // Keeping the top-half free
     putBlock(blockToSplit, whatsLeft, blockToSplit->next, 1);
-    block *allocatedPortion = (block *)((char *)blockToSplit + whatsLeft);
+    block *allocatedPortion = (block *)((char *)blockToSplit + whatsLeft); // problem
     // Allocated bottom half
     putBlock(allocatedPortion, size, NULL, 0);
     return allocatedPortion;
